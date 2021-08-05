@@ -1,0 +1,140 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Http.Extensions
+@inject System.Net.Http.HttpClient Http
+@inject NavigationManager NavigationManager;
+
+
+<h3 align="center">Мои курсы</h3>
+<hr />
+<div>
+    <button class="btn btn-success" @onclick="GoToAddCourse">Добавить курс</button>
+</div>
+<hr />
+<div>
+    Всего курсов: @_countCourses
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-dark">
+        <thead class="thead-dark">
+            <tr>
+                <td class="text-info">
+                    ID
+                </td>
+                <td class="text-info">
+                    Категория
+                </td>
+                <td class="text-info">
+                    Название
+                </td>
+                <td class="text-info">
+                    Баллы
+                </td>
+                <td class="text-info">
+                    Оценивающий
+                </td>
+                <td class="text-info">
+                    Дата создания
+                </td>
+                <td class="text-info">
+                    Дата редактирования
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (_myCourses == null)
+            {
+                <tr>Загрузка...</tr>
+            }
+            else if (_myCourses.Count == 0)
+            {
+                <tr>Нет записей!</tr>
+            }
+            else
+            {
+                @foreach (Course course in _myCourses)
+                {
+                    <tr>
+                        <td>
+                            @course.Id
+                        </td>
+                        <td>
+                            @course.Category
+                        </td>
+                        <td>
+                            @course.Title
+                        </td>
+                        <td>
+                            @if (course.Evaluation != null)
+                            {
+                                @course.Evaluation
+                            }
+                            else
+                            {
+                                @ValueIsNull
+                            }
+                        </td>
+                        <td>
+                            @if (course.Evaluating != null)
+                            {
+                                @course.Evaluating
+                            }
+                            else
+                            {
+                                @ValueIsNull
+                            }
+                        </td>
+                        <td>
+                            @course.Date
+                        </td>
+                        <td>
+                            @if (course.DateEdit != null)
+                            {
+                                @course.Id
+                            }
+                            else
+                            {
+                                @ValueIsNull
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-primary">Просмотреть</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-secondary">Редактировать</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" @*@onclick="@(() => DeleteCourse(course.Id))*@">Удалить</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    public string ValueIsNull { get; set; } = "-";
+
+    List<Course> _myCourses;
+
+    private readonly SkoContext _context = new SkoContext();
+
+    int _countCourses;
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1);
+        _myCourses = _context.Courses.Where(c => c.UserId == 1).ToList();
+        _countCourses = _myCourses.Count;
+    }
+
+    void GoToAddCourse()
+    {
+        NavigationManager.NavigateTo("/AddCourse");
+    }
+
+    //void DeleteCourse(int courseId)
+    //{
+    //    Http.DeleteAsync()
+    //}
+}

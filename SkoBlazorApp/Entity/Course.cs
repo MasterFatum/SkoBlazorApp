@@ -20,6 +20,6 @@ namespace SkoBlazorApp
         public string DateEdit { get; set; }
         public int Year { get; set; }
 
-        public virtual User User { get; set; }
+        public  User User { get; set; }
     }
 }

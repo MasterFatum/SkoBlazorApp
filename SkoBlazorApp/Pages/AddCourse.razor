@@ -1,0 +1,50 @@
+﻿@page "/AddCourse"
+@inject NavigationManager NavigationManager;
+
+<h3 align="center">Добавление курса</h3>
+<hr />
+<div>
+    <button class="btn btn-success" @onclick="GoToHome">Назад</button>
+</div>
+<hr />
+<div>
+    <select class="form-control w-auto" id="selectCategory">
+        @foreach (var item in _listCategory)
+        {
+            <option value="@item">@item</option>
+        }
+    </select>
+</div>
+<br/>
+<EditForm Model="@_course" OnValidSubmit="@AddCourse">
+        <div>
+            <label>Название курса</label>
+            <div>
+                <InputText @bind-Value="_course.Title"></InputText>
+            </div>
+        </div>
+    </EditForm>
+
+@code {
+
+    SkoContext _context = new SkoContext();
+
+    Course _course = new Course();
+
+    List<String> _listCategory = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        _listCategory = _context.Courses.Select(x => x.Category).Distinct().ToList();
+    }
+
+    //void AddCourse(Course course)
+    //{
+
+    //}
+
+    void GoToHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
