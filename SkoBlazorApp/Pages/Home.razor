@@ -89,7 +89,7 @@
                         <td>
                             @if (course.DateEdit != null)
                             {
-                                @course.Id
+                                @course.DateEdit
                             }
                             else
                             {
@@ -118,13 +118,13 @@
 
     List<Course> _myCourses;
 
-    private readonly SkoContext _context = new SkoContext();
+    private readonly SkoContext _skoContext = new SkoContext();
 
     int _countCourses;
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(1);
-        _myCourses = _context.Courses.Where(c => c.UserId == 1).ToList();
+        _myCourses = _skoContext.Courses.Where(c => c.UserId == 1).ToList();
         _countCourses = _myCourses.Count;
     }
 
@@ -133,8 +133,4 @@
         NavigationManager.NavigateTo("/AddCourse");
     }
 
-    //void DeleteCourse(int courseId)
-    //{
-    //    Http.DeleteAsync()
-    //}
 }

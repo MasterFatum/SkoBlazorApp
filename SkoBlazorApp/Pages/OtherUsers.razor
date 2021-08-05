@@ -123,14 +123,14 @@
     List<Course> _myCourses = new List<Course>();
     List<User> _allUsers = new List<User>();
 
-    private readonly SkoContext _context = new SkoContext();
+    private readonly SkoContext _skoContext = new SkoContext();
 
     int _countUsers;
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(1);
-        _allUsers = _context.Users.ToList();
-        //_myCourses = _context.Courses.Where(c => c.UserId == 16).ToList();
+        _allUsers = _skoContext.Users.ToList();
+        //_myCourses = _skoContext.Courses.Where(c => c.UserId == 16).ToList();
         _countUsers = _allUsers.Count;
     }
 

@@ -16,14 +16,6 @@
     </select>
 </div>
 <br/>
-<EditForm Model="@_course" OnValidSubmit="@AddCourse">
-        <div>
-            <label>Название курса</label>
-            <div>
-                <InputText @bind-Value="_course.Title"></InputText>
-            </div>
-        </div>
-    </EditForm>
 
 @code {
 
