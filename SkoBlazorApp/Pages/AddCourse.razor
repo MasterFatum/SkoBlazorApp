@@ -1,41 +1,78 @@
 ﻿@page "/AddCourse"
+@using SkoBlazorApp.Data;
+@inject CourseService CourseService;
 @inject NavigationManager NavigationManager;
 
 <h3 align="center">Добавление курса</h3>
 <hr />
 <div>
-    <button class="btn btn-success" @onclick="GoToHome">Назад</button>
+    <button class="btn btn-success" @onclick="@Cancel">Назад</button>
 </div>
 <hr />
-<div>
-    <select class="form-control w-auto" id="selectCategory">
-        @foreach (var item in _listCategory)
-        {
-            <option value="@item">@item</option>
-        }
-    </select>
-</div>
-<br/>
+<form>
+    <div class="form-group">
+        <select form="Category" class="form-control w-auto" @bind="@_course.Category">
+            @foreach (var item in _listCategory)
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <input form="UserId" class="form-control w-auto" @bind="@_course.UserId" />
+    </div>
+    <div class="form-group">
+        <input form="Title" class="form-control w-auto" @bind="@_course.Title" />
+    </div>
+    <div class="form-group">
+        <textarea form="Description" class="form-control" @bind="@_course.Description"></textarea>
+    </div>
+    <div class="form-group">
+        <input form="Date" class="form-control w-auto" @bind="@_date" />
+    </div>
+    <div class="form-group">
+        <input form="Hyperlink" class="form-control" @bind="@_course.Hyperlink" />
+    </div>
+    <div class="form-group">
+        <input type="file" form="FileName" class="form-control" @bind="@_course.FileName" />
+    </div>
+    <div class="form-group">
+        <input form="Year" class="form-control" @bind="@_year" />
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CreateCourse" value="Сохранить" />
+            </div>
+        </div>
+    </div>
+</form>
+<br />
 
 @code {
 
-    SkoContext _context = new SkoContext();
+    string _date = DateTime.Now.ToShortDateString();
+    int _year = DateTime.Now.Year;
+
+    readonly SkoContext _context = new SkoContext();
 
     Course _course = new Course();
 
     List<String> _listCategory = new List<string>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        _listCategory = _context.Courses.Select(x => x.Category).Distinct().ToList();
+        _listCategory = await Task.Run(() => CourseService.GetAllCategory());
     }
 
-    //void AddCourse(Course course)
-    //{
+    protected async void CreateCourse()
+    {
+        await CourseService.AddCourseAsync(_course);
+        NavigationManager.NavigateTo("/");
+    }
 
-    //}
 
-    void GoToHome()
+    void Cancel()
     {
         NavigationManager.NavigateTo("/");
     }

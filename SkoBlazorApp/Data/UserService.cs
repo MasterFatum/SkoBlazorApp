@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SkoBlazorApp.Data
 {
@@ -22,14 +21,10 @@ namespace SkoBlazorApp.Data
                     _skoContext.SaveChanges();
 
                 }
-                else
-                {
-
-                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
+                throw new NotImplementedException();
             }
 
         }
@@ -47,9 +42,9 @@ namespace SkoBlazorApp.Data
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
         }
 
@@ -72,9 +67,9 @@ namespace SkoBlazorApp.Data
                     _skoContext.SaveChanges();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
         }
 
@@ -102,9 +97,9 @@ namespace SkoBlazorApp.Data
                     
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
         }
 
@@ -116,12 +111,10 @@ namespace SkoBlazorApp.Data
 
                 return users;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
-
-            return null;
         }
 
         public IEnumerable<UserEvaluationSummary> GetAllUsersName()
@@ -140,12 +133,10 @@ namespace SkoBlazorApp.Data
 
                 return users;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
-
-            return null;
         }
 
         public List<String> GetFioUsers()
@@ -163,12 +154,11 @@ namespace SkoBlazorApp.Data
 
                 return userFio;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
 
-            return null;
         }
 
         public User ValidationUser(string username, string password)
@@ -190,11 +180,10 @@ namespace SkoBlazorApp.Data
 
                 return user;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
-            return null;
         }
 
         public User ValidationAdmin(string username, string password)
@@ -215,12 +204,10 @@ namespace SkoBlazorApp.Data
 
                 return user;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
-
-            return null;
         }
 
         public void SokoDispose()
@@ -234,11 +221,10 @@ namespace SkoBlazorApp.Data
             {
                 return _skoContext.Users.Count().ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
-            return null;
         }
 
         public int GetUserIdByFio(string lastname, string firstname, string middlename)
@@ -250,9 +236,9 @@ namespace SkoBlazorApp.Data
                 userId = _skoContext.Users.Where(l => l.Lastname == lastname).Where(f => f.Firstname == firstname)
                     .FirstOrDefault(m => m.Middlename == middlename);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
 
             if (userId != null && userId.Id != 0)
@@ -279,9 +265,9 @@ namespace SkoBlazorApp.Data
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
 
             return false;
@@ -304,9 +290,9 @@ namespace SkoBlazorApp.Data
                     return false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
 
             return true;
@@ -328,12 +314,10 @@ namespace SkoBlazorApp.Data
 
                 return users;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
-
-            return null;
         }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SkoBlazorApp.Data
 {
@@ -9,38 +10,56 @@ namespace SkoBlazorApp.Data
     {
         readonly SkoContext _skoContext = new SkoContext();
 
-        public void AddCourse(Course course)
+        public Course GetCourse(int courseId)
         {
             try
             {
-                _skoContext.Courses.Add(course);
-                _skoContext.SaveChanges();
+                Course course = _skoContext.Courses.Where(u => u.UserId == 1)
+                    .FirstOrDefault(c => c.Id == courseId);
+                return course;
             }
             catch (Exception)
             {
-                throw new NotImplementedException();
+                throw;
             }
-        }
 
-        public void DeleteCourse(int id, int userId)
+        }
+        public async Task<bool> AddCourseAsync(Course course)
         {
             try
             {
-                Course course = _skoContext.Courses.Where(u => u.UserId == userId).FirstOrDefault(c => c.Id == id);
+               await _skoContext.Courses.AddAsync(course);
+               await _skoContext.SaveChangesAsync();
+               return true;
+            }
+            catch (Exception)
+            {
+                
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DeleteCourseAsync(int userId, int id)
+        {
+            try
+            {
+                Course course = await _skoContext.Courses.Where(u => u.UserId == userId).FirstOrDefaultAsync(c => c.Id == id);
 
                 if (course != null)
                 {
                     _skoContext.Courses.Remove(course);
-                    _skoContext.SaveChanges();
+                    await _skoContext.SaveChangesAsync();
+                    return true;
                 }
 
+                return false;
             }
             catch (Exception)
             {
                 throw new NotImplementedException();
             }
         }
-
         public void EditCourse(Course course)
         {
             try
@@ -72,16 +91,24 @@ namespace SkoBlazorApp.Data
             }
         }
 
-        public IEnumerable<Course> GetAllCategory()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Course> GetCoursesByUserId(int userId)
+        public async Task<List<String>>GetAllCategory()
         {
             try
             {
-                IQueryable<Course> courses = new SkoContext().Courses.Where(u => u.UserId == userId);
+                return await _skoContext.Courses.Select(c => c.Category).Distinct().ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw new NotImplementedException();
+            }
+            
+        }
+
+        public async Task<List<Course>> GetCoursesByUserId(int userId)
+        {
+            try
+            {
+                List<Course> courses = await _skoContext.Courses.Where(u => u.UserId.Equals(userId)).ToListAsync();
 
                 return courses.ToList();
             }
