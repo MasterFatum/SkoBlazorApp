@@ -13,40 +13,40 @@
     <div class="row">
         <div class=" col-md-8">
             <div class="form-group">
-                <label>ID курса:</label>
+                <b><label>ID курса:</label></b>
                 <label>@_course.Id</label>
             </div>
             <div class="form-group">
-                <label>Название курса:</label>
+                <b><label>Название курса:</label></b>
                 <label>@_course.Title</label>
             </div>
             <div class="form-group">
-                <label>Описание курса:</label>
+                <b><label>Описание курса:</label></b>
                 <label>@_course.Description</label>
             </div>
             <div class="form-group">
-                <label>Оценка курса:</label>
-                <label>@_course.Evaluation</label>
-            </div>
-            <div class="form-group">
-                <label>Оценивающий:</label>
-                <label>@_course.Evaluating</label>
-            </div>
-            <div class="form-group">
-                <label>Дата создания курса:</label>
+                <b><label>Дата создания курса:</label></b>
                 <label>@_course.Date</label>
             </div>
             <div class="form-group">
-                <label>Дата редактирования курса:</label>
+                <b><label>Дата редактирования курса:</label></b>
                 <label>@_course.DateEdit</label>
             </div>
             <div class="form-group">
-                <label>Ссылка на внешний ресурс:</label>
-                <label>@_course.Hyperlink</label>
+                <b><label>Ссылка на внешний ресурс:</label></b>
+                <a href="@_course.Hyperlink">@_course.Hyperlink</a>
             </div>
             <div class="form-group">
-                <label>Файлы курса:</label>
+                <b><label>Файлы курса:</label></b>
                 <label>@_course.FileName</label>
+            </div>
+            <div class="form-group">
+                <b><label>Оценка курса:</label></b>
+                <label>@_course.Evaluation</label>
+            </div>
+            <div class="form-group">
+                <b><label>Оценивающий:</label></b>
+                <label>@_course.Evaluating</label>
             </div>
         </div>
 
@@ -54,8 +54,8 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <input type="button" class="btn btn-danger" @onclick="@DeleteEmployee" value="Удалить" />
                 <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Назад" />
+                <input type="button" class="btn btn-danger" @onclick="@DeleteEmployee" value="Удалить данный курс" />
             </div>
         </div>
     </div>

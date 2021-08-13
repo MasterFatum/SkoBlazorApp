@@ -11,7 +11,7 @@
 <h3 align="center">Мои курсы</h3>
 <hr />
 <div>
-    <button class="btn btn-success" @onclick="GoToAddCourse">Добавить курс</button>
+    <button class="btn btn-success" @onclick="@GoToAddCourse">Добавить курс</button>
 </div>
 <hr />
 <div>
@@ -23,7 +23,7 @@
         <thead class="thead-dark">
             <tr>
                 <td class="text-info">
-                    ID
+                    №
                 </td>
                 <td class="text-info">
                     Категория
@@ -32,16 +32,16 @@
                     Название
                 </td>
                 <td class="text-info">
-                    Баллы
-                </td>
-                <td class="text-info">
-                    Оценивающий
-                </td>
-                <td class="text-info">
                     Дата создания
                 </td>
                 <td class="text-info">
                     Дата редактирования
+                </td>
+                <td class="text-info">
+                    Баллы
+                </td>
+                <td class="text-info">
+                    Оценивающий
                 </td>
             </tr>
         </thead>
@@ -56,17 +56,31 @@
             }
             else
             {
+                int number = 1;
                 @foreach (Course course in _myCourses)
                 {
                     <tr>
                         <td>
-                            @course.Id
+                            @number
                         </td>
                         <td>
                             @course.Category
                         </td>
                         <td>
                             @course.Title
+                        </td>
+                        <td>
+                            @course.Date
+                        </td>
+                        <td>
+                            @if (course.DateEdit != null)
+                            {
+                                @course.DateEdit
+                            }
+                            else
+                            {
+                                @ValueIsNull
+                            }
                         </td>
                         <td>
                             @if (course.Evaluation != null)
@@ -89,20 +103,7 @@
                             }
                         </td>
                         <td>
-                            @course.Date
-                        </td>
-                        <td>
-                            @if (course.DateEdit != null)
-                            {
-                                @course.DateEdit
-                            }
-                            else
-                            {
-                                @ValueIsNull
-                            }
-                        </td>
-                        <td>
-                            <button class="btn btn-primary" @onclick="@(e => ViewCourse(course.Id))">
+                            <button class="btn btn-primary" @onclick="@(() => ViewCourse(course.Id))">
                                 <span class="oi oi-browser" aria-hidden="true"> Просмотреть</span>
                             </button>
                         </td>
@@ -112,6 +113,7 @@
                             </button>
                         </td>
                     </tr>
+                    number++;
                 }
             }
         </tbody>
@@ -127,6 +129,7 @@
     private readonly SkoContext _skoContext = new SkoContext();
 
     int _countCourses;
+
     protected override async Task OnInitializedAsync()
     {
 
