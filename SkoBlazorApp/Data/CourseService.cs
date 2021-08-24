@@ -20,7 +20,7 @@ namespace SkoBlazorApp.Data
             }
             catch (Exception)
             {
-                throw;
+                throw new NotImplementedException();
             }
 
         }
@@ -28,13 +28,13 @@ namespace SkoBlazorApp.Data
         {
             try
             {
-               await _skoContext.Courses.AddAsync(course);
-               await _skoContext.SaveChangesAsync();
-               return true;
+                await _skoContext.Courses.AddAsync(course);
+                await _skoContext.SaveChangesAsync();
+                return true;
             }
             catch (Exception)
             {
-                
+                throw new NotImplementedException();
             }
 
             return false;
@@ -91,7 +91,7 @@ namespace SkoBlazorApp.Data
             }
         }
 
-        public async Task<List<String>>GetAllCategory()
+        public async Task<List<String>> GetAllCategory()
         {
             try
             {
@@ -101,7 +101,7 @@ namespace SkoBlazorApp.Data
             {
                 throw new NotImplementedException();
             }
-            
+
         }
 
         public async Task<List<Course>> GetCoursesByUserId(int userId)

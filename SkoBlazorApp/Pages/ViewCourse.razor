@@ -55,7 +55,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Назад" />
-                <input type="button" class="btn btn-danger" @onclick="@DeleteEmployee" value="Удалить данный курс" />
+                <input type="button" class="btn btn-danger" @onclick="@DeleteCourse" value="Удалить данный курс" />
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
     {
         _course = await Task.Run(() => CourseService.GetCourse(Convert.ToInt32(Id)));
     }
-    protected async void DeleteEmployee()
+    protected async void DeleteCourse()
     {
         await CourseService.DeleteCourseAsync(1, _course.Id);
         NavigationManager.NavigateTo("/");

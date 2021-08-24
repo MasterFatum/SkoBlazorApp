@@ -5,9 +5,7 @@
 
 <h3 align="center">Добавление курса</h3>
 <hr />
-<div>
-    <button class="btn btn-success" @onclick="@Cancel">Назад</button>
-</div>
+<button class="btn btn-primary" @onclick="@Cancel">Назад</button>
 <hr />
 <form>
     <div class="form-group">
@@ -23,31 +21,26 @@
         <input form="UserId" class="form-control w-auto" @bind="@_course.UserId" />
     </div>
     <div class="form-group">
-        <input form="Title" class="form-control w-auto" @bind="@_course.Title" />
+        <input form="Title" placeholder="Название курса" class="form-control w-auto" @bind="@_course.Title" />
     </div>
     <div class="form-group">
-        <textarea form="Description" class="form-control" @bind="@_course.Description"></textarea>
+        <textarea form="Description" placeholder="Описание курса" class="form-control" @bind="@_course.Description"></textarea>
     </div>
     <div class="form-group">
-        <input form="Hyperlink" class="form-control" @bind="@_course.Hyperlink" />
+        <input form="Hyperlink" placeholder="Ссылка на ресурс" class="form-control" @bind="@_course.Hyperlink" />
     </div>
     <div class="form-group">
         <input type="file" form="FileName" class="form-control" @bind="@_course.FileName" />
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="button" class="btn btn-primary" @onclick="@CreateCourse" value="Сохранить" />
-            </div>
-        </div>
+    <hr />
+    <div class="form-group">
+        <input type="button" class="btn btn-success" @onclick="@CreateCourse" value="Сохранить" />
     </div>
 </form>
 <br />
 
 @code {
 
-    //string _date = DateTime.Now.ToShortDateString();
-    //int _year = DateTime.Now.Year;
 
     readonly SkoContext _context = new SkoContext();
 

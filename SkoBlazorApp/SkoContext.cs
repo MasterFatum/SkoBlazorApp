@@ -24,7 +24,12 @@ namespace SkoBlazorApp
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=VANWORK;Database=SOKO;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=172.16.0.22;Database=SOKO;User Id=Sko;Password=Sko123;");
+
+
+                //Server=SCHOOL-SRV;Database=SOKO;User Id=Sko;Password=Sko123;
+                //Server=WANWORK;Database=SOKO;Trusted_Connection=True;
+
             }
         }
     }
