@@ -26,8 +26,7 @@ namespace SkoBlazorApp
             {
                 optionsBuilder.UseSqlServer("Server=172.16.0.22;Database=SOKO;User Id=Sko;Password=Sko123;");
 
-
-                //Server=SCHOOL-SRV;Database=SOKO;User Id=Sko;Password=Sko123;
+                //Server=172.16.0.22;Database=SOKO;User Id=Sko;Password=Sko123;
                 //Server=WANWORK;Database=SOKO;Trusted_Connection=True;
 
             }
