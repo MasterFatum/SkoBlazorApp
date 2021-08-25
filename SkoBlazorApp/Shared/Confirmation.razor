@@ -1,0 +1,55 @@
+﻿@if (displayConfirmation)
+{
+    <div class="modal-backdrop show"></div>
+
+    <div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModal" aria-hidden="true" style="display: block">
+
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">@ModalTitle</h5>
+                </div>
+                <div class="modal-body">
+                    @ModalBody
+                </div>
+                <div class="modal-footer">
+                    <button @onclick="ButtonYes" type="button" class="btn-danger">Да</button>
+                    <button @onclick="ButtonNo" type="button" class="btn-primary">Нет</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+
+
+@code {
+
+    private bool displayConfirmation = false;
+
+    [Parameter]
+    public string ModalTitle { get; set; } = "Удаление курса";
+    [Parameter]
+    public RenderFragment ModalBody { get; set; }
+    [Parameter]
+    public EventCallback ButtonYes { get; set; }
+    [Parameter]
+    public EventCallback ButtonNo { get; set; }
+
+    public void Show()
+    {
+        displayConfirmation = true;
+    }
+
+    public void Hide()
+    {
+        displayConfirmation = false;
+    }
+
+}
