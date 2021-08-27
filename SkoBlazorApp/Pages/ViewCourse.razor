@@ -63,7 +63,7 @@
 
 @code {
 
-    Confirmation confirmation;
+    Confirmation _confirmation;
 
     [Parameter]
     public string Id { get; set; }
@@ -75,6 +75,7 @@
     }
     protected async void DeleteCourse()
     {
+        //_confirmation.Show();
         await CourseService.DeleteCourseAsync(1, _course.Id);
         NavigationManager.NavigateTo("/");
     }
@@ -82,4 +83,5 @@
     {
         NavigationManager.NavigateTo("/");
     }
+
 }
