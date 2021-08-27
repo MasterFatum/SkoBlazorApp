@@ -17,8 +17,10 @@
 </div>
 <hr />
 <div>
-    Всего курсов: @_countCourses
+    Всего курсов: @_countCourses <br/>
+    Общее количество баллов: @_allRating
 </div>
+<hr/>
 
 <div class="table-responsive">
     <table class="table table-striped table-dark">
@@ -131,12 +133,15 @@
     private readonly SkoContext _skoContext = new SkoContext();
 
     int _countCourses;
+    string _allRating;
 
     protected override async Task OnInitializedAsync()
     {
 
         _myCourses = await Task.Run(() => CourseService.GetCoursesByUserId(1));
         _countCourses = _myCourses.Count;
+
+        _allRating = CourseService.AllRating(1);
     }
 
     void GoToAddCourse()

@@ -75,7 +75,6 @@
     }
     protected async void DeleteCourse()
     {
-        //_confirmation.Show();
         await CourseService.DeleteCourseAsync(1, _course.Id);
         NavigationManager.NavigateTo("/");
     }
