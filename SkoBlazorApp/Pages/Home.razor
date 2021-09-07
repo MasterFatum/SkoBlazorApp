@@ -1,8 +1,5 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Http.Extensions
-@using Microsoft.EntityFrameworkCore
 @using SkoBlazorApp.Data
-@using SkoBlazorApp.Pages
 @inject System.Net.Http.HttpClient Http
 @inject CourseService CourseService;
 @inject NavigationManager NavigationManager;
@@ -112,7 +109,7 @@
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-outline-warning">
+                            <button class="btn btn-secondary">
                                 <span class="oi oi-pencil" aria-hidden="true"> Редактировать</span>
                             </button>
                         </td>
@@ -151,6 +148,10 @@
     void ViewCourse(int id)
     {
         NavigationManager.NavigateTo($"/ViewCourse/{id}");
+    }
+    void EditCourse(int id)
+    {
+        NavigationManager.NavigateTo($"/EditCourse/{id}");
     }
 
 }
