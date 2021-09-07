@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -9,9 +10,12 @@ namespace SkoBlazorApp
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Это поле должно быть заполнено!")]
         public string Title { get; set; }
         public int? Evaluation { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public string Category { get; set; }
         public string Date { get; set; }
         public string Hyperlink { get; set; }

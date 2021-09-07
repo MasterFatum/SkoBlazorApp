@@ -77,7 +77,7 @@ namespace SkoBlazorApp.Data
                     if (courseEdit.Evaluation != null)
                     {
                         courseEdit.DateEdit =
-                            String.Format($"{DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
+                            String.Format($"{DateTime.Now.ToShortDateString()}");
                     }
 
                     _skoContext.Courses.Update(courseEdit);

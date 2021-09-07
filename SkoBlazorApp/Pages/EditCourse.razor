@@ -1,0 +1,95 @@
+﻿@page "/EditCourse/{Id}"
+@using SkoBlazorApp.Data
+@inject CourseService _courseServices
+@inject NavigationManager NavigationManager
+
+<h2>Редактирование курса</h2>
+<hr />
+
+<EditForm Model="_course" OnValidSubmit="UpdateEmployee">
+    <DataAnnotationsValidator />
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Название курса</label>
+                <InputText class="form-control" @bind-Value="_course.Title"></InputText>
+
+            </div>
+            <div class="form-group">
+                <label>Описание курса</label>
+                <InputTextArea class="form-control" @bind-Value="_course.Description"></InputTextArea>
+            </div>
+            <div class="form-group">
+                <label>Ссылка на ресурс</label>
+                <InputText class="form-control" @bind-Value="_course.Hyperlink"></InputText>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="button" class="btn btn-success" @onclick="@UpdateEmployee">Обновить</button>
+                <button type="button" class="btn btn-primary" @onclick="@Cancel">Назад</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    Course _course = new Course();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _course = await Task.Run(() => _courseServices.GetCourse(Convert.ToInt32(Id)));
+    }
+
+    protected void UpdateEmployee()
+    {
+        _courseServices.EditCourse(_course);
+        NavigationManager.NavigateTo("/");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+}
+
+
+
+
+
+
+
+
+
+@*<form>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>Название курса</label>
+                    <input form="Title" class="form-control" @bind="@_course.Title" />
+                </div>
+                <div class="form-group">
+                    <label>Описание курса</label>
+                    <textarea form="Description" class="form-control" @bind="@_course.Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ссылка на ресурс</label>
+                    <input form="Hyperlink" class="form-control" @bind="@_course.Hyperlink" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="button" class="btn btn-success" @onclick="@UpdateEmployee">Обновить</button>
+                <button type="button" class="btn btn-primary" @onclick="@Cancel">Назад</button>
+            </div>
+        </div>
+    </div>*@
