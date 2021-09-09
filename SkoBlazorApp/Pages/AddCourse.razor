@@ -5,10 +5,6 @@
 
 <h3 align="center">Добавление курса</h3>
 <hr />
-<button class="btn btn-primary" @onclick="@Cancel">
-    <span class="oi oi-action-undo" aria-hidden="true"> Назад</span>
-</button>
-<hr />
 <form>
     <div class="form-group">
         <select form="Category" class="form-control w-auto" @bind="@_course.Category">
@@ -35,16 +31,23 @@
         <input type="file" form="FileName" class="form-control" @bind="@_course.FileName" />
     </div>
     <hr />
-    <div class="form-group">
-        <input type="button" class="btn btn-success" @onclick="@CreateCourse" value="Сохранить" />
-    </div>
 </form>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <button class="btn btn-success" @onclick="@CreateCourse">
+                <span class="oi oi-check" aria-hidden="true"> Сохранить</span>
+            </button>
+            <button class="btn btn-primary" @onclick="@Cancel">
+                <span class="oi oi-action-undo" aria-hidden="true"> Назад</span>
+            </button>
+        </div>
+    </div>
+</div>
 <br />
 
+
 @code {
-
-
-    readonly SkoContext _context = new SkoContext();
 
     Course _course = new Course();
 
@@ -62,7 +65,6 @@
         await CourseService.AddCourseAsync(_course);
         NavigationManager.NavigateTo("/");
     }
-
 
     void Cancel()
     {

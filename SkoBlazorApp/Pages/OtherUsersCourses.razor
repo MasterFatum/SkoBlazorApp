@@ -1,8 +1,11 @@
-﻿@page "/OtherUsers"
+﻿@page "/OtherUsersCourses"
+@using SkoBlazorApp.Data
+@inject CourseService CourseService;
+@inject NavigationManager NavigationManager;
 
 
 <h3 align="center">Курсы других пользователей</h3>
-<hr/>
+<hr />
 <div></div>
 <div>
     <select class="form-control w-auto" id="selectUser">
@@ -12,35 +15,35 @@
         }
     </select>
 </div>
-<hr/>
+<hr />
 
 <div>
-    Всего пользователей: @_countUsers
+    Всего пользователей: <b>@_countUsers</b>
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-dark">
         <thead class="thead-dark">
             <tr>
-                <td class="text-info">
-                    ID
+                <td class="font-weight-bold">
+                    №
                 </td>
-                <td class="text-info">
+                <td class="font-weight-bold">
                     Категория
                 </td>
-                <td class="text-info">
+                <td class="font-weight-bold">
                     Название
                 </td>
-                <td class="text-info">
-                    Баллы
-                </td>
-                <td class="text-info">
-                    Оценивающий
-                </td>
-                <td class="text-info">
+                <td class="font-weight-bold">
                     Дата создания
                 </td>
-                <td class="text-info">
+                <td class="font-weight-bold">
                     Дата редактирования
+                </td>
+                <td class="font-weight-bold">
+                    Баллы
+                </td>
+                <td class="font-weight-bold">
+                    Оценивающий
                 </td>
             </tr>
         </thead>
@@ -55,17 +58,31 @@
             }
             else
             {
+                int number = 1;
                 @foreach (Course course in _myCourses)
                 {
                     <tr>
                         <td>
-                            @course.Id
+                            @number
                         </td>
                         <td>
                             @course.Category
                         </td>
                         <td>
                             @course.Title
+                        </td>
+                        <td>
+                            @course.Date
+                        </td>
+                        <td>
+                            @if (course.DateEdit != null)
+                            {
+                                @course.DateEdit
+                            }
+                            else
+                            {
+                                @ValueIsNull
+                            }
                         </td>
                         <td>
                             @if (course.Evaluation != null)
@@ -88,28 +105,12 @@
                             }
                         </td>
                         <td>
-                            @course.Date
-                        </td>
-                        <td>
-                            @if (course.DateEdit != null)
-                            {
-                                @course.DateEdit
-                            }
-                            else
-                            {
-                                @ValueIsNull
-                            }
-                        </td>
-                        <td>
-                            <button class="btn btn-primary">Просмотреть</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-secondary">Редактировать</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger">Удалить</button>
+                            <button class="btn btn-outline-info" @onclick="@(() => ViewCourse(course.Id))">
+                                <span class="oi oi-browser" aria-hidden="true"> Просмотреть</span>
+                            </button>
                         </td>
                     </tr>
+                    number++;
                 }
             }
         </tbody>
@@ -119,23 +120,28 @@
 @code
 {
     public string ValueIsNull { get; set; } = "-";
-
     List<Course> _myCourses = new List<Course>();
     List<User> _allUsers = new List<User>();
+    public User SelectedUser { get; set; }
+
 
     private readonly SkoContext _skoContext = new SkoContext();
 
     int _countUsers;
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(1);
-        _allUsers = _skoContext.Users.ToList();
-        //_myCourses = _skoContext.Courses.Where(c => c.UserId == 16).ToList();
+        await GetCoursesOnUser(1);
+        _allUsers = _skoContext.Users.OrderBy(u => u.Lastname).ToList();
         _countUsers = _allUsers.Count;
     }
 
-    public void GetCoursesFromUser()
+    public async Task GetCoursesOnUser(int id)
     {
+        _myCourses = await Task.Run(() => CourseService.GetCoursesByUserId(id));
+    }
 
+    void ViewCourse(int id)
+    {
+        NavigationManager.NavigateTo($"/ViewCourseOtherUser/{id}");
     }
 }

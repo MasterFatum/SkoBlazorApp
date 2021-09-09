@@ -13,7 +13,7 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="OtherUsers">
+            <NavLink class="nav-link" href="OtherUsersCourses">
                 <span class="oi oi-people" aria-hidden="true"></span> Другие пользователи
             </NavLink>
         </li>
@@ -21,12 +21,12 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool _collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 }

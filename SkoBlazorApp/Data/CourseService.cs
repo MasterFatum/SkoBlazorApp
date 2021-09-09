@@ -24,6 +24,7 @@ namespace SkoBlazorApp.Data
             }
 
         }
+
         public async Task<bool> AddCourseAsync(Course course)
         {
             try
@@ -36,15 +37,14 @@ namespace SkoBlazorApp.Data
             {
                 throw new NotImplementedException();
             }
-
-            return false;
         }
 
         public async Task<bool> DeleteCourseAsync(int userId, int id)
         {
             try
             {
-                Course course = await _skoContext.Courses.Where(u => u.UserId == userId).FirstOrDefaultAsync(c => c.Id == id);
+                Course course = await _skoContext.Courses.Where(u => u.UserId == userId)
+                    .FirstOrDefaultAsync(c => c.Id == id);
 
                 if (course != null)
                 {
@@ -60,6 +60,7 @@ namespace SkoBlazorApp.Data
                 throw new NotImplementedException();
             }
         }
+
         public void EditCourse(Course course)
         {
             try
@@ -108,9 +109,10 @@ namespace SkoBlazorApp.Data
         {
             try
             {
-                List<Course> courses = await _skoContext.Courses.Where(u => u.UserId.Equals(userId)).ToListAsync();
+                List<Course> courses = await _skoContext.Courses.Where(u => u.UserId.Equals(userId))
+                    .OrderBy(d => d.Date).ToListAsync();
 
-                return courses.ToList();
+                return courses;
             }
             catch (Exception)
             {
@@ -118,14 +120,14 @@ namespace SkoBlazorApp.Data
             }
         }
 
-        public IEnumerable<Course> GetCoursesByCategory(int userId, string category)
+        public async Task<List<Course>> GetCoursesByUserId(int userId, int year)
         {
             try
             {
-                var courses = _skoContext.Courses.Where(u => u.UserId == userId).Where(c => c.Category == category);
+                List<Course> courses = await _skoContext.Courses.Where(u => u.UserId == userId)
+                    .Where(y => y.Year == year).ToListAsync();
 
-                return courses.ToList();
-
+                return courses;
             }
             catch (Exception)
             {
@@ -133,24 +135,7 @@ namespace SkoBlazorApp.Data
             }
         }
 
-        public IEnumerable<Course> GetCoursesByFio(string lastname, string firstname, string middlename, string category)
-        {
-            try
-            {
-                User userId = _skoContext.Users.OrderBy(l => l.Lastname).Where(l => l.Lastname == lastname).Where(f => f.Firstname == firstname)
-                    .FirstOrDefault(m => m.Middlename == middlename);
-
-                IEnumerable<Course> courseses = _skoContext.Courses.Where(u => u.UserId == userId.Id)
-                    .Where(c => c.Category == category);
-
-                return courseses.ToList();
-            }
-            catch (Exception)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        
         public IEnumerable<Course> GetCoursesByFio(string lastname, string firstname, string middlename)
         {
             try
@@ -167,29 +152,7 @@ namespace SkoBlazorApp.Data
                 throw new NotImplementedException();
             }
         }
-
-        public void SetRatingCourse(int userId, int id, int rating, string evaluating)
-        {
-            try
-            {
-                Course course = _skoContext.Courses.Where(u => u.UserId == userId).FirstOrDefault(c => c.Id == id);
-
-                if (course != null)
-                {
-                    course.Evaluation = rating;
-                    course.Evaluating = evaluating;
-
-                    _skoContext.Courses.Update(course);
-                    _skoContext.SaveChanges();
-
-                }
-            }
-            catch (Exception)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        
         public string AllRating(int userId)
         {
             try
@@ -202,58 +165,20 @@ namespace SkoBlazorApp.Data
             }
         }
 
-        public IEnumerable<Course> GetSummaryStatementByFio(string lastname, string firstname, string middlename)
+
+        public List<int> GetYears()
         {
             try
             {
-                User userId = _skoContext.Users.Where(l => l.Lastname == lastname).Where(f => f.Firstname == firstname)
-                    .FirstOrDefault(m => m.Middlename == middlename);
+                List<int> years = _skoContext.Courses.Select(y => y.Year).Distinct().OrderByDescending(y => y).ToList();
 
-                var summary = _skoContext.Courses.Where(u => u.UserId == userId.Id).GroupBy(c => c.Category).Select(c => new
-                {
-                    category = c.Key,
-                    evaluation = c.Sum(e => e.Evaluation)
-                }).AsEnumerable().Select(an => new Course { Category = an.category, Evaluation = an.evaluation });
-
-                return summary.ToList();
-
+                return years;
             }
             catch (Exception)
             {
                 throw new NotImplementedException();
             }
+
         }
-
-        //public void ExportToExcel(DataGrid dataGrid)
-        //{
-        //    try
-        //    {
-        //        Excel.Application excel = new Excel.Application();
-        //        excel.Visible = true;
-        //        Workbook workbook = excel.Workbooks.Add(System.Reflection.Missing.Value);
-        //        Worksheet sheet1 = (Worksheet)workbook.Sheets[1];
-
-        //        for (int j = 0; j < dataGrid.Columns.Count; j++)
-        //        {
-        //            Range myRange = (Range)sheet1.Cells[1, j + 1];
-        //            sheet1.Cells[1, j + 1].Font.Bold = true;
-        //            sheet1.Columns[j + 1].ColumnWidth = 15;
-        //            myRange.Value2 = dataGrid.Columns[j].Header;
-        //        }
-        //        for (int i = 0; i < dataGrid.Columns.Count; i++)
-        //        {
-        //            for (int j = 0; j < dataGrid.Items.Count; j++)
-        //            {
-        //                var b = dataGrid.Columns[i].GetCellContent(dataGrid.Items[j]) as TextBlock;
-        //                Range myRange = (Range)sheet1.Cells[j + 2, i + 1];
-
-        //                if (b != null) myRange.Value2 = b.Text;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
     }
 }

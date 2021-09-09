@@ -1,4 +1,4 @@
-﻿@page "/ViewCourse/{Id}"
+﻿@page "/ViewCourseOtherUser/{Id}"
 @using Microsoft.AspNetCore.Http.Extensions
 @using Microsoft.EntityFrameworkCore
 @using SkoBlazorApp.Data
@@ -54,9 +54,6 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <button type="button" class="btn btn-danger" @onclick="@DeleteCourse">
-                    <span class="oi oi-circle-x" aria-hidden="true"> Удалить данный курс</span>
-                </button>
                 <button type="button" class="btn btn-primary" @onclick="@Cancel">
                     <span class="oi oi-action-undo" aria-hidden="true"> Назад</span>
                 </button>
@@ -76,14 +73,10 @@
     {
         _course = await Task.Run(() => CourseService.GetCourse(Convert.ToInt32(Id)));
     }
-    protected async void DeleteCourse()
-    {
-        await CourseService.DeleteCourseAsync(1, _course.Id);
-        NavigationManager.NavigateTo("/");
-    }
+
     void Cancel()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/OtherUsersCourses");
     }
 
 }
