@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,18 @@ namespace SkoBlazorApp.Data
     public class CourseService
     {
         readonly SkoContext _skoContext = new SkoContext();
+
+        public User GetUserOnId(int id)
+        {
+            User user = _skoContext.Users.Find(id);
+            return user;
+        }
+
+        public List<String> GetAllUsers()
+        {
+             List<String> allUsers = _skoContext.Users.Select(u => u.Lastname).ToList();
+             return allUsers;
+        }
 
         public Course GetCourse(int courseId)
         {
@@ -23,6 +36,13 @@ namespace SkoBlazorApp.Data
                 throw new NotImplementedException();
             }
 
+        }
+
+        public List<Course> GetCourseOnLastname(string lastname)
+        {
+            User userId = _skoContext.Users.FirstOrDefault(l => l.Lastname == lastname);
+            List<Course> courses = _skoContext.Courses.Where(c => c.UserId == userId.Id).ToList();
+            return courses;
         }
 
         public async Task<bool> AddCourseAsync(Course course)

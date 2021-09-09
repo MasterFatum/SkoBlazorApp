@@ -8,7 +8,7 @@
 <form>
     <div class="form-group">
         <select form="Category" class="form-control w-auto" @bind="@_course.Category">
-            <option value="">ВЫБЕРИТЕ КАТЕГОРИЮ...</option>
+            <option value="-1">-- ВЫБЕРИТЕ КАТЕГОРИЮ --</option>
             @foreach (var item in _listCategory)
             {
                 <option value="@item">@item</option>

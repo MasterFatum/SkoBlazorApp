@@ -6,15 +6,16 @@
 
 <h3 align="center">Мои курсы</h3>
 <hr />
-<div>
-    <button class="btn btn-success" @onclick="@GoToAddCourse">
-        <span class="oi oi-plus" aria-hidden="true"> Добавить курс</span>
-    </button>
-</div>
-<br />
-<div>
-    Всего курсов: <b>@_countCourses</b> <br />
-    Общее количество баллов: <b>@_allRating</b>
+<div class="row">
+    <div class="col" align="left">
+        <button class="btn btn-success" @onclick="@GoToAddCourse">
+            <span class="oi oi-plus" aria-hidden="true"> Добавить курс</span>
+        </button>
+    </div>
+    <div class="col" align="right">
+        Всего курсов: <b>@_countCourses</b> <br />
+        Общее количество баллов: <b>@_allRating</b>
+    </div>
 </div>
 <hr />
 <div>
@@ -112,7 +113,7 @@
                         </td>
                         <td>
                             <button class="btn btn-outline-info" @onclick="@(() => ViewCourse(course.Id))">
-                                <span class="oi oi-browser" aria-hidden="true"> Просмотреть</span>
+                                <span class="oi oi-eye" aria-hidden="true"> Просмотреть</span>
                             </button>
                         </td>
                         <td>

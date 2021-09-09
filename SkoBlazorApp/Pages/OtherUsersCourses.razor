@@ -3,17 +3,21 @@
 @inject CourseService CourseService;
 @inject NavigationManager NavigationManager;
 
-
 <h3 align="center">Курсы других пользователей</h3>
 <hr />
-<div></div>
-<div>
-    <select class="form-control w-auto" id="selectUser">
-        @foreach (var item in _allUsers)
-        {
-            <option value="@item">@item.Lastname</option>
-        }
-    </select>
+<div class="row">
+    <div>
+        <select class="form-control w-auto" @bind="@SelectedUser">
+            <option value="-1">-- Выберите пользователя --</option>
+            @foreach (var item in _allUsers)
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+    </div>
+    <div>
+        <button class="btn btn-primary" @onclick="@(() => GetCoursesOnUser(SelectedUser))">Показать</button>
+    </div>
 </div>
 <hr />
 
@@ -48,18 +52,18 @@
             </tr>
         </thead>
         <tbody>
-            @if (_myCourses == null)
+            @if (_userCourses == null)
             {
                 <tr>Загрузка...</tr>
             }
-            else if (_myCourses.Count == 0)
+            else if (_userCourses.Count == 0)
             {
                 <tr>Нет записей!</tr>
             }
             else
             {
                 int number = 1;
-                @foreach (Course course in _myCourses)
+                @foreach (Course course in _userCourses)
                 {
                     <tr>
                         <td>
@@ -106,7 +110,7 @@
                         </td>
                         <td>
                             <button class="btn btn-outline-info" @onclick="@(() => ViewCourse(course.Id))">
-                                <span class="oi oi-browser" aria-hidden="true"> Просмотреть</span>
+                                <span class="oi oi-eye" aria-hidden="true"> Просмотреть</span>
                             </button>
                         </td>
                     </tr>
@@ -120,24 +124,25 @@
 @code
 {
     public string ValueIsNull { get; set; } = "-";
-    List<Course> _myCourses = new List<Course>();
-    List<User> _allUsers = new List<User>();
-    public User SelectedUser { get; set; }
+    List<Course> _userCourses = new List<Course>();
+    List<String> _allUsers = new List<String>();
+
+    IEnumerable<User> Users { get; set; }
 
 
-    private readonly SkoContext _skoContext = new SkoContext();
+    public string SelectedUser { get; set; } = "-1";
+
 
     int _countUsers;
     protected override async Task OnInitializedAsync()
     {
-        await GetCoursesOnUser(1);
-        _allUsers = _skoContext.Users.OrderBy(u => u.Lastname).ToList();
+        _allUsers = CourseService.GetAllUsers();
         _countUsers = _allUsers.Count;
     }
 
-    public async Task GetCoursesOnUser(int id)
+    public async Task GetCoursesOnUser(string selectedUser)
     {
-        _myCourses = await Task.Run(() => CourseService.GetCoursesByUserId(id));
+        _userCourses = await Task.Run(() => CourseService.GetCourseOnLastname(selectedUser));
     }
 
     void ViewCourse(int id)
