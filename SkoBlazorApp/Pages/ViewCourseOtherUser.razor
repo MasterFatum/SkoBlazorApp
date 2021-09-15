@@ -71,7 +71,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _course = await Task.Run(() => CourseService.GetCourse(Convert.ToInt32(Id)));
+        _course = await Task.Run(() => CourseService.GetCourseByUserId(Convert.ToInt32(Id)));
     }
 
     void Cancel()

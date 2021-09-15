@@ -142,7 +142,7 @@
 
     public async Task GetCoursesOnUser(string selectedUser)
     {
-        _userCourses = await Task.Run(() => CourseService.GetCourseOnLastname(selectedUser));
+        _userCourses = await Task.Run(() => CourseService.GetCoursesByLastname(selectedUser));
     }
 
     void ViewCourse(int id)

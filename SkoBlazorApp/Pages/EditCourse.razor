@@ -46,7 +46,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _course = await Task.Run(() => _courseServices.GetCourse(Convert.ToInt32(Id)));
+        _course = await Task.Run(() => _courseServices.GetCourseByUserId(Convert.ToInt32(Id)));
     }
 
     protected void UpdateEmployee()

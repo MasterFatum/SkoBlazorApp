@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace SkoBlazorApp.Data
     {
         readonly SkoContext _skoContext = new SkoContext();
 
-        public User GetUserOnId(int id)
+        public User GetUserById(int id)
         {
             User user = _skoContext.Users.Find(id);
             return user;
@@ -19,11 +18,11 @@ namespace SkoBlazorApp.Data
 
         public List<String> GetAllUsers()
         {
-             List<String> allUsers = _skoContext.Users.Select(u => u.Lastname).ToList();
-             return allUsers;
+            List<String> allUsers = _skoContext.Users.Select(u => u.Lastname).ToList();
+            return allUsers;
         }
 
-        public Course GetCourse(int courseId)
+        public Course GetCourseByUserId(int courseId)
         {
             try
             {
@@ -38,7 +37,7 @@ namespace SkoBlazorApp.Data
 
         }
 
-        public List<Course> GetCourseOnLastname(string lastname)
+        public List<Course> GetCoursesByLastname(string lastname)
         {
             User userId = _skoContext.Users.FirstOrDefault(l => l.Lastname == lastname);
             List<Course> courses = _skoContext.Courses.Where(c => c.UserId == userId.Id).ToList();
@@ -52,28 +51,6 @@ namespace SkoBlazorApp.Data
                 await _skoContext.Courses.AddAsync(course);
                 await _skoContext.SaveChangesAsync();
                 return true;
-            }
-            catch (Exception)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public async Task<bool> DeleteCourseAsync(int userId, int id)
-        {
-            try
-            {
-                Course course = await _skoContext.Courses.Where(u => u.UserId == userId)
-                    .FirstOrDefaultAsync(c => c.Id == id);
-
-                if (course != null)
-                {
-                    _skoContext.Courses.Remove(course);
-                    await _skoContext.SaveChangesAsync();
-                    return true;
-                }
-
-                return false;
             }
             catch (Exception)
             {
@@ -105,6 +82,28 @@ namespace SkoBlazorApp.Data
                     _skoContext.SaveChanges();
 
                 }
+            }
+            catch (Exception)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<bool> DeleteCourseAsync(int userId, int id)
+        {
+            try
+            {
+                Course course = await _skoContext.Courses.Where(u => u.UserId == userId)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+
+                if (course != null)
+                {
+                    _skoContext.Courses.Remove(course);
+                    await _skoContext.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception)
             {
@@ -155,8 +154,7 @@ namespace SkoBlazorApp.Data
             }
         }
 
-        
-        public IEnumerable<Course> GetCoursesByFio(string lastname, string firstname, string middlename)
+        public IEnumerable<Course> GetCoursesByFullname(string lastname, string firstname, string middlename)
         {
             try
             {
@@ -172,8 +170,8 @@ namespace SkoBlazorApp.Data
                 throw new NotImplementedException();
             }
         }
-        
-        public string AllRating(int userId)
+
+        public string GetAllRating(int userId)
         {
             try
             {
@@ -184,7 +182,6 @@ namespace SkoBlazorApp.Data
                 throw new NotImplementedException();
             }
         }
-
 
         public List<int> GetYears()
         {
