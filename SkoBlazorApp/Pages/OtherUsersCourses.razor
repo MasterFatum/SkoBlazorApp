@@ -136,7 +136,7 @@
     int _countUsers;
     protected override async Task OnInitializedAsync()
     {
-        _allUsers = CourseService.GetAllUsers();
+        _allUsers = await Task.Run(()=>CourseService.GetAllUsers());
         _countUsers = _allUsers.Count;
     }
 
